@@ -2,6 +2,7 @@ package lk.ijse.dep.dao;
 
 import lk.ijse.dep.entity.SuperEntity;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -10,12 +11,12 @@ import java.util.List;
 
 public abstract class CrudDAOImpl<T extends SuperEntity,ID extends Serializable> implements CrudDAO<T,ID> {
     @Autowired
-    protected Session session;
+    private SessionFactory sessionFactory;
     private Class<T> entity;
 
     @Override
-    public void setSession(Session session) {
-        this.session = session;
+    public Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 
     protected CrudDAOImpl(){
@@ -24,26 +25,27 @@ public abstract class CrudDAOImpl<T extends SuperEntity,ID extends Serializable>
 
     @Override
     public List<T> findAll() throws Exception {
-        return session.createQuery("FROM " + entity.getName()).list();
+        return getSession().createQuery("FROM " + entity.getName()).list();
     }
 
     @Override
     public T find(ID pk) throws Exception {
-        return (T) session.get(entity,pk);
+        return (T) getSession().get(entity,pk);
     }
 
     @Override
     public void save(T entity) throws Exception {
-        session.save(entity);
+        getSession().save(entity);
     }
 
     @Override
     public void update(T entity) throws Exception {
-        session.update(entity);
+        getSession().update(entity);
     }
 
     @Override
     public void delete(ID pk) throws Exception {
-        session.delete(session.load(entity,pk));
+        getSession().delete(getSession().load(entity,pk));
     }
+
 }

@@ -118,12 +118,11 @@ public class SearchOrderFormController {
     public void btnReport_OnAction(ActionEvent actionEvent) throws JRException {
         JasperDesign jasperDesign = null;
         try {
-            Session session = HibernateUtil.getSessionFactory().openSession();
             jasperDesign = JRXmlLoader.load(this.getClass().getResourceAsStream("/lk/ijse/dep/report/POSBill.jrxml"));
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
             Map<String,Object> parameters = new HashMap<>();
             parameters.put("orderID",txtSearch.getText());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters, (Connection) session);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters);
             JasperViewer.viewReport(jasperPrint,false);
         } catch (JRException e) {
             e.printStackTrace();
