@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ItemDAOImpl extends CrudDAOImpl<Item,String> implements ItemDAO {
     public String getLastItemCode() throws Exception {
-        return (String) getSession().createNativeQuery("SELECT code FROM Item ORDER BY code DESC ")
+        return (String) getSession().createQuery("SELECT i.code FROM lk.ijse.dep.entity.Item i ORDER BY i.code DESC")
                 .setMaxResults(1).list().get(0);
     }
 }
