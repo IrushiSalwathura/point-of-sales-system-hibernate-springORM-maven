@@ -5,11 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lk.ijse.dep.db.HibernateUtil;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * AppInitializer is the main class of this pos system
@@ -30,7 +28,6 @@ public class AppInitializer extends Application {
         ctx.register(AppConfig.class);
         ctx.refresh();
         launch(args);
-        HibernateUtil.getSessionFactory().close();
     }
 
     @Override
